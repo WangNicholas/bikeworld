@@ -98,6 +98,29 @@ app.get("/", async(req, res)=>{
     res.sendFile(__dirname +"/index.html");
 })
 
+try{
+    const newPessoa = await pessoa.save();
+    res.json({error : null, msg : "Cadastro ok", pessoaId : newPessoa._id});
+} catch(error){
+    res.status(400).json({error});
+}
+;
+
+//rota para o get de cadastro
+app.get("/cadastropessoa", async(req, res)=>{
+res.sendFile(__dirname +"/cadastrousuario.html");
+});
+
+
+
+
+//rota raiz - inw
+app.get("/", async(req, res)=>{
+res.sendFile(__dirname +"/cadastrousuario.html");
+});
+
+
+
 
 //configurando a porta
 app.listen(port, ()=>{
