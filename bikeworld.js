@@ -103,3 +103,42 @@ app.get("/", async(req, res)=>{
 app.listen(port, ()=>{
     console.log(`Servidor rodando na porta ${port}`);
 })
+
+
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const endpoint = form.action;
+
+                // Verifique se todos os campos estão preenchidos
+                let isFormValid = true;
+                formData.forEach((value, key) => {
+                    if (!value) {
+                        alert(`Preencha o campo "${key}"`);
+                        isFormValid = false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    return;
+                }
+
+                // Envie os dados para o servidor
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData))
+                });
+
+                if (response.ok) {
+                    alert('Cadastro realizado com sucesso!');
+                } else {
+                    const data = await response.json();
+                    alert('Erro: ' + data.error);
+                }
+            });
+        });
+   
